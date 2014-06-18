@@ -31,7 +31,7 @@ The original github repository for this codelab is here: [https://github.com/Goo
 * A reasonably-powered laptop with plenty of RAM
     * please avoid ultrabooks! sorry, also no chromebooks ATM
 * A Java Development Kit (**JDK, not JRE**), version 7 (Java 7)
-* Latest **[Android Studio](http://developer.android.com/sdk/installing/studio.html#download)**
+* Latest **[Android Studio 0.6.1+](http://developer.android.com/sdk/installing/studio.html#download)**
     * **The Android Emulator**
         * The AVD should be created with :
             * Android 4.4.2 API Level 19+
@@ -39,7 +39,7 @@ The original github repository for this codelab is here: [https://github.com/Goo
             * SD Card present, 200MiB
     * **Android SDK Manager** (accessible from Tools>Android) configured with :
         * Android SDK Tools
-        * Android SDK Build-tools 19.0.2
+        * Android SDK Build-tools 19.1
         * Android SDK Platform-tools
         * Android Support Repository
         * Android 4.0.3 (API 15+) or above
@@ -50,9 +50,9 @@ The original github repository for this codelab is here: [https://github.com/Goo
 
 ![image alt text](images/image_0.png)
 
-Todo.txt is an Android application [available from the Play Store](https://play.google.com/store/apps/details?id=com.todotxt.todotxttouch) that stores tasks in the Cloud. It's simple to understand and use, has great user ratings and, best of all, is open sourced with full code available on github at [https://github.com/ginatrapani/todo.txt-android](https://github.com/ginatrapani/todo.txt-android).
+Todo.txt is an Android application [available from the Play Store](https://play.google.com/store/apps/details?id=com.todotxt.todotxttouch) that stores tasks in the Cloud. It's simple to understand and use, has great user ratings and, best of all, is open sourced with full code available on GitHub at [https://github.com/ginatrapani/todo.txt-android](https://github.com/ginatrapani/todo.txt-android).
 
-In this code lab we will use a single development environment (Android Studio) to build a brand new Google Cloud Platform backend to store user tasks, thus replacing the existing Cloud provider.
+In this codelab we will use a single development environment (Android Studio) to build a brand new Google Cloud Platform backend to store user tasks, thus replacing the existing Cloud provider.
 
 ![image alt text](images/image_1.png)
 
@@ -64,7 +64,7 @@ All coding in this codelab, client and backend, will be done in Java within Goog
 
 Throughout the codelab, we'll use Android Studio, an open-source IDE built for Android by Google, it is based on IntelliJ IDEA with coding assistance tools to help write Java code, it offers an integrated visual editor with a layout designer and a large number of bundled static code analysis tools (Lint) to help build quality apps. It's integrated with **Gradle** to enable one build across dev environment (IDE, command line, continuous integration server, etc).
 
-Android Studio is still in preview (version 0.5.x) as of this writing but fully functional and tested for what we're trying to do in this lab. Note we'll also be using **Java 7** as the target Java SDK for both the Android application and the App Engine Endpoint backend.
+Android Studio is still in preview (version 0.6.x) as of this writing but fully functional and tested for what we're trying to do in this lab. Note we'll also be using **Java 7** as the target Java SDK for both the Android application and the App Engine Endpoint backend.
 
 This IDE will also allow you to :
 
@@ -72,9 +72,6 @@ This IDE will also allow you to :
 * Generate Java-specific bindings for use in our Android application
 * Benefit from as-you-type validations and quick-fixes when defining the backend API
 * Use App Engine-specific Gradle tooling that allows for a unified client/backend build
-
-![image alt text](images/image_3.png)
-
 
 ### Google Cloud Endpoints - where the magic happens
 
@@ -87,7 +84,6 @@ Cloud Endpoints exposes standards based REST interfaces with built-in authorizat
 In Java, using `@Api`, `@ApiMethod` and associated attributes enables you to decorate your business logic to expose it as RESTful APIs. Here's a simple example :
 
 ```java
-
 @Api(name = "myApi", version = "v1")
 public class MyEndpoint {
 
@@ -128,7 +124,7 @@ Use the suggested **Project ID** (it is unique and available) or create your own
 
 Once created, this Google Cloud Platform project will enable you to manage all the services the Cloud Platform has to offer. In this lab, we'll use App Engine and Cloud Datastore.
 
-Every Google Cloud Platform project can create a free and private **git repository** which you're free to use in this lab but this is not a requirement. You can also connect your project to an existing GitHub repo. Both these options enable the [Push-to-Deploy](https://developers.google.com/appengine/docs/push-to-deploy) feature and are available from the console's "Cloud Development" menu.
+Every Google Cloud Platform project can create a free and private **git repository** which you're free to use in this lab but this is not a requirement. You can also connect your project to an existing GitHub repo. Both these options can be used with [Push-to-Deploy](https://developers.google.com/appengine/docs/push-to-deploy) feature and are available from the console's "Cloud Development" menu.
 
 ![image alt text](images/image_8.png)
 
@@ -137,7 +133,7 @@ In this codelab we'll start a new backend project from scratch.
 
 ## Step 1 - Get the Android application source code
 
-The Android application source code is available in [this GitHub repository](https://github.com/GoogleCloudPlatform/endpoints-codelab-android) as a Gradle project (or alternatively download it from this [Zip archive](http://storage.googleapis.com/todo-codelab/TodoTxt.zip)). This is the slightly modified version of the [Todo.txt application code found on GitHub](https://github.com/ginatrapani/todo.txt-android), enough to start coding to add Google Cloud Platform as a backend.
+The Android application source code is available in [this GitHub repository](https://github.com/GoogleCloudPlatform/endpoints-codelab-android) as a Gradle project. You can get the source code on your machine by running ```git clone https://github.com/GoogleCloudPlatform/endpoints-codelab-android``` command, or alternatively, you can download this [.zip archive](http://storage.googleapis.com/todo-codelab/TodoTxt.zip). This is the slightly modified version of the [Todo.txt application code found on GitHub](https://github.com/ginatrapani/todo.txt-android), enough to start coding to add Google Cloud Platform as a backend.
 
 Open Android Studio and import the code as a new project. Remember, this needs to use **Java 7**. Check the SDK Location in your **File** > **Project Structure**.
 
@@ -153,18 +149,19 @@ This should trigger a successful (Gradle) build :
 From here we'll create, build and test the backend before we make our way back to the Android client to hook it up to this new backend.
 
 
-## Step 2 - Create the endpoints backend project
+## Step 2 - Create the Endpoints backend project
 
 Android Studio has built-in support for Google Cloud Endpoints.
 
-To add a backend to the current Android project, simply go to: **Tools > Google Cloud Tools > Add App Engine backend**
+To add a backend to the current Android project, simply go to: **File > New Module** or right-click on your "endpoints-codelab-project" in the Project side pane and choose **New > Module**.
 
 ![image alt text](images/image_12.png)
 
-Make sure you select the "App Engine Java **Endpoints** Module" template and use the following values :
+Make sure you select the "App Engine Java **Endpoints** Module" template and enter the following values in the next screen:
 
-* Module Name: **todoTxtBackend**
-* Package Name: **com.google.todotxt.backend**
+* Module name: **todoTxtBackend**
+* Package name: **com.google.todotxt.backend**
+* Client module: **todoTxtTouch (com.todotxt.todotxttouch)**
 
 ![image alt text](images/image_13.png)
 
