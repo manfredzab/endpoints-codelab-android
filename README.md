@@ -379,7 +379,7 @@ If required, the complete `build.gradle` file for `todoTxtTouch` is located in t
 
 ![image alt text](images/image_24.png)
 
-When the Gradle sync finishes, your Android client application is ready to start using the Endpoints client library to store tasks in our Google Cloud backend.
+When the Gradle sync finishes, the Android client application is ready to start using the Endpoints client library to store tasks in our Google Cloud backend.
 
 Here's how we can do it. First, navigate to the `com/todotxt/todotxttouch/task/TaskBagImpl.java` file in the `todoTxtTouch` module (it may be one of the tabs already open) and navigate to line 215 (using **Navigate > Line** should get you to `/* REMOTE APIS */`).
 
