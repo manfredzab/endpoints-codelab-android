@@ -17,7 +17,7 @@ The original github repository for this codelab is here: [https://github.com/Goo
         - [Overall codelab architecture](#user-content-overall-codelab-architecture)
     - [Step 0 - Create your own project in the Google Developers Console](#user-content-step-0---create-your-own-project-in-the-google-developers-console)
     - [Step 1 - Get the Android application source code](#user-content-step-1---get-the-android-application-source-code)
-    - [Step 2 - Create the endpoints backend project](#user-content-step-2---create-the-endpoints-backend-project)
+    - [Step 2 - Create the Endpoints backend project](#user-content-step-2---create-the-endpoints-backend-project)
     - [Step 3 - Implement reading and writing tasks to the Datastore](#user-content-step-3---implement-reading-and-writing-tasks-to-the-datastore)
     - [Step 4 - Install Java Client Libraries, add dependency to Android project](#user-content-step-4---install-java-client-libraries-add-dependency-to-android-project)
     - [Step 5 - Modify the android application to use the new backend. Run. Test.](#user-content-step-5---modify-the-android-application-to-use-the-new-backend-run-test)
@@ -165,7 +165,7 @@ Make sure you select the "App Engine Java **Endpoints** Module" template and ent
 
 ![image alt text](images/image_13.png)
 
-This creates a new backend module for this Android Studio project and adds it as an additional dependency in the `settings.gradle` file.The generated code is pretty straight-forward with an object model for the data manipulated by the endpoint and the actual endpoint implementation :
+This creates a new backend module for this Android Studio project and adds it as an additional dependency in the `settings.gradle` file. It also adds the required dependencies for the generated client libraries to the app's `build.gradle` file. The generated code is pretty straight-forward with an object model for the data manipulated by the Endpoint and the actual Endpoint implementation :
 
 ![image alt text](images/image_14.png)
 
@@ -187,7 +187,7 @@ public class MyEndpoint {
 
 An HTTP POST request to `myApi/v1/sayHi/Test` will be routed to the `sayHi()` method and `"Test"` will be mapped to the `name` attribute.
 
-The convention here is that sending data to the endpoint implies that the server state will change and thus only POST requests will be mapped to this method. You can be explicit about which HTTP verb is used (in particular to distinguishing between a PUT and a POST) by specifying the optional `httpMethod` attribute of `@ApiMethod` (`HttpMethod.POST` in this case).
+The convention here is that sending data to the Endpoint implies that the server state will change and thus only POST requests will be mapped to this method. You can be explicit about which HTTP verb is used (in particular to distinguishing between a PUT and a POST) by specifying the optional `httpMethod` attribute of `@ApiMethod` (`HttpMethod.POST` in this case).
 
 All Cloud Endpoints annotations and attributes are documented here: [https://developers.google.com/appengine/docs/java/endpoints/annotations](https://developers.google.com/appengine/docs/java/endpoints/annotations)
 
@@ -212,9 +212,9 @@ com.google.appengine.tools.development.DevAppServerImpl doStart
 INFO: Dev App Server is now running
 ```
 
-You can then point your browser to [http://localhost:8080](http://localhost:8080) to exercise the sample endpoints functionality or more interestingly go to [http://localhost:8080/_ah/api/explorer](http://localhost:8080/_ah/api/explorer) to use the Google API Explorer tool which you may already be familiar with if you've used in the past any public Google API. See the "Using the APIs Explorer" Appendix at the end of this document for further details.
+You can then point your browser to [http://localhost:8080](http://localhost:8080) to exercise the sample Endpoint functionality or more interestingly go to [http://localhost:8080/_ah/api/explorer](http://localhost:8080/_ah/api/explorer) to use the Google API Explorer tool which you may already be familiar with if you've used in the past any public Google API. See the "Using the APIs Explorer" Appendix at the end of this document for further details.
 
-Once done testing the default endpoint, stop the local development app server (red square in the log window or **Run > Stop**).
+Once done testing the default Endpoint, stop the local development app server (red square in the log window or **Run > Stop**).
 
 At this point we have the basic Endpoints infrastructure in place but we still need to store tasks in a Datastore and wire up the Android application to use this new backend.
 
@@ -245,7 +245,7 @@ public class TaskBean {
 }
 ```
 
-In `MyEndpoint.java`, change the name of the endpoint from `"myApi"` to `"TaskApi"`. Notice how a tooltip indicates that this is not a recommended name (names should not be capitalized). Consequently, change it to `"taskApi"` :
+In `MyEndpoint.java`, change the name of the Endpoint from `"myApi"` to `"TaskApi"`. Notice how a tooltip indicates that this is not a recommended name (names should not be capitalized). Consequently, change it to `"taskApi"` :
 
 ![image alt text](images/image_19.png)
 
@@ -331,7 +331,7 @@ public void clearTasks() {
 }
 ```
 
-This method clearly does modify the server state and thus its name does not start with `get`. An HTTP POST is required to call this method. Another common RESTful request is the use of HTTP PUT but in our case we're never modifying existing data. If needed, here are the appropriate import statements for the entire endpoints class :
+This method clearly does modify the server state and thus its name does not start with `get`. An HTTP POST is required to call this method. Another common RESTful request is the use of HTTP PUT but in our case we're never modifying existing data. If needed, here are the appropriate import statements for the entire Endpoints class :
 
 ```java
 
@@ -359,7 +359,7 @@ At this point we have a fully functional backend exposing three methods to store
 
 ## Step 4 - Install Java Client Libraries, add dependency to Android project
 
-While exposing standard RESTful interfaces makes it possible to access them from an Android application, the Cloud Endpoints technology is able to create client libraries (in our case a Java library) to enable a much easier implementation on the client-side with high-level abstractions such as Java classes rather than the underlying JSON and HTTP concepts. To generate the client library for our task endpoints, simply use the following menu : **Tools > Google Cloud Tools > Install Client Libraries**.
+While exposing standard RESTful interfaces makes it possible to access them from an Android application, the Cloud Endpoints technology is able to create client libraries (in our case a Java library) to enable a much easier implementation on the client-side with high-level abstractions such as Java classes rather than the underlying JSON and HTTP concepts. To generate the client library for our task Endpoints, simply use the following menu : **Tools > Google Cloud Tools > Install Client Libraries**.
 
 ![image alt text](images/image_22.png)
 
@@ -367,7 +367,7 @@ This will scan the project for Cloud Endpoints artifacts (our `MyEndpoint` class
 
 ![image alt text](images/image_23.png)
 
-If you are curious, the generated code is placed in the project's `build/client-libs/taskApi-v1-java.zip` and contains the following files (the names are derived from the endpoint name) :
+If you are curious, the generated code is placed in the project's `build/client-libs/taskApi-v1-java.zip` and contains the following files (the names are derived from the Endpoint name) :
 
 ```
 taskApi/TaskApiScopes.java
@@ -564,7 +564,7 @@ Now open a terminal window and set the directory to the root of the project (sel
 
 ![image alt text](images/image_35.png)
 
-On the command line type the following command to (build if necessary and) deploy the endpoints application to Google App Engine:
+On the command line type the following command to (build if necessary and) deploy the Endpoints application to Google App Engine:
 
 `$ ./gradlew todoTxtBackend:appengineUpdate`
 
@@ -636,7 +636,7 @@ As you can see in the screenshot above a query of `TaskBean` entities in the Clo
 Believe it or not, this application is not quite perfect!
 Here are a few ideas to enhance the code and the user experience :
 
-* Add **endpoints authentication** by re-using the Android logged-in user credentials and thus preventing anyone to access your endpoints. Check out this documentation : [https://developers.google.com/appengine/docs/java/endpoints/auth](https://developers.google.com/appengine/docs/java/endpoints/auth)
+* Add **Endpoints authentication** by re-using the Android logged-in user credentials and thus preventing anyone to access your Endpoints. Check out this documentation : [https://developers.google.com/appengine/docs/java/endpoints/auth](https://developers.google.com/appengine/docs/java/endpoints/auth)
 * Use **memcache** to drastically improve performance of your application under load. See this Memcache overview: [https://developers.google.com/appengine/docs/java/memcache/](https://developers.google.com/appengine/docs/java/memcache/)
 * Implement **better sync logic** with some level of incremental synchronisation.
 
@@ -706,7 +706,7 @@ The Google App Engine console is further documented here: [https://developers.go
         - [Overall codelab architecture](#user-content-overall-codelab-architecture)
     - [Step 0 - Create your own project in the Google Developers Console](#user-content-step-0---create-your-own-project-in-the-google-developers-console)
     - [Step 1 - Get the Android application source code](#user-content-step-1---get-the-android-application-source-code)
-    - [Step 2 - Create the endpoints backend project](#user-content-step-2---create-the-endpoints-backend-project)
+    - [Step 2 - Create the Endpoints backend project](#user-content-step-2---create-the-endpoints-backend-project)
     - [Step 3 - Implement reading and writing tasks to the Datastore](#user-content-step-3---implement-reading-and-writing-tasks-to-the-datastore)
     - [Step 4 - Install Java Client Libraries, add dependency to Android project](#user-content-step-4---install-java-client-libraries-add-dependency-to-android-project)
     - [Step 5 - Modify the android application to use the new backend. Run. Test.](#user-content-step-5---modify-the-android-application-to-use-the-new-backend-run-test)
