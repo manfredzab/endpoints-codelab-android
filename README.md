@@ -367,7 +367,7 @@ While exposing standard RESTful interfaces makes it possible to access them from
 
 To generate these client libraries, we can simply re-build the backend by navigating to **Build > Make Module 'todoTxtBackend'**. Once the build finishes, the generated client libraries will be placed in `todoTxtBackend/build/libs/todoTxtBackend-endpoints-android.jar` archive.
 
-To start calling these libraries, let's add the following compile dependency to the Android client in `todoTxtTouch/build.gradle` file:
+To start calling these libraries, let's add the following compile dependency to the Android client in `todoTxtTouch/build.gradle` file (if it's not already present):
 
 ```groovy
 dependencies {
@@ -379,7 +379,7 @@ If required, the complete `build.gradle` file for `todoTxtTouch` is located in t
 
 ![image alt text](images/image_24.png)
 
-At this point the Android client application is ready to start using the Endpoints client library to store tasks in our Google Cloud backend.
+When the Gradle sync finishes, your Android client application is ready to start using the Endpoints client library to store tasks in our Google Cloud backend.
 
 Here's how we can do it. First, navigate to the `com/todotxt/todotxttouch/task/TaskBagImpl.java` file in the `todoTxtTouch` module (it may be one of the tabs already open) and navigate to line 215 (using **Navigate > Line** should get you to `/* REMOTE APIS */`).
 
