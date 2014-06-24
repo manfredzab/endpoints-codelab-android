@@ -365,20 +365,23 @@ At this point we have a fully functional backend exposing three methods to store
 
 While exposing standard RESTful interfaces makes it possible to access them from an Android application, the Cloud Endpoints technology is able to create client libraries (in our case a Java library) to enable a much easier implementation on the client-side with high-level abstractions such as Java classes rather than the underlying JSON and HTTP concepts.
 
-To generate these client libraries, simply re-build the backend by navigating to **Build > Make Module 'todoTxtBackend'**. Once the build finishes, the Android client application will be ready to start using the generated Endpoints client library for `TaskApi` to store tasks in our Google Cloud backend.
+To generate these client libraries, we can simply re-build the backend by navigating to **Build > Make Module 'todoTxtBackend'**. Once the build finishes, the generated client libraries will be placed in `todoTxtBackend/build/libs/todoTxtBackend-endpoints-android.jar` archive.
 
-If you are curious, the generated code is placed under `todoTxtBackend/build/client-libs/taskApi-v1-java.zip` and contains the following files (the names are derived from the Endpoint name) :
+To start calling these libraries, let's add the following compile dependency to the Android client in `todoTxtTouch/build.gradle` file:
 
+```groovy
+dependencies {
+  ...
+  compile fileTree(dir: 'libs', include: ['*.jar'])
+}
 ```
-taskApi/TaskApiScopes.java
-taskApi/model/TaskBean.java
-taskApi/model/TaskBeanCollection.java
-taskApi/TaskApi.java
-taskApi/TaskApiRequest.java
-taskApi/TaskApiRequestInitializer.java
-```
+If required, the complete `build.gradle` file for `todoTxtTouch` is located in the [`snippets/` directory](./snippets/build.gradle) of the codelab archive. Once you've made this change, you'll be prompted to perform a **"Gradle sync"** :
 
-All of the required compile dependencies have already been added to your Android client `build.gradle` by the "New module..." wizard, so to start calling these libraries, navigate to the `com/todotxt/todotxttouch/task/TaskBagImpl.java` file in the `todoTxtTouch` module (it may be one of the tabs already open) and navigate to line 215 (using **Navigate > Line** should get you to `/* REMOTE APIS */`).
+![image alt text](images/image_24.png)
+
+At this point the Android client application is ready to start using the Endpoints client library to store tasks in our Google Cloud backend.
+
+Here's how we can do it. First, navigate to the `com/todotxt/todotxttouch/task/TaskBagImpl.java` file in the `todoTxtTouch` module (it may be one of the tabs already open) and navigate to line 215 (using **Navigate > Line** should get you to `/* REMOTE APIS */`).
 
 This is the interesting part: the `pushToRemote` and `pullToRemote` methods implement the actual communication with the backend which we want to set to use the Google Cloud Platform. Rather than making changes to this existing class we'll create a new subclass of `TaskBagImpl` called `EndpointsTaskBagImpl` (full source [here](./snippets/EndpointsTaskBagImpl.java)) :
 
